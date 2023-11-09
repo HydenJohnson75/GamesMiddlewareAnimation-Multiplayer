@@ -585,6 +585,7 @@ GameObject:
   - component: {fileID: 3401815422898444336}
   - component: {fileID: 573777634468356193}
   - component: {fileID: 9182696626194324248}
+  - component: {fileID: 1032652726109304552}
   m_Layer: 0
   m_Name: Door_Pref
   m_TagString: Interactable
@@ -649,6 +650,27 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!65 &1032652726109304552
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8111255639682175508}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_LayerOverridePriority: 1
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1.7837982, z: 0.66418266}
+  m_Center: {x: 0, y: 0.8827784, z: 0.13475704}
 --- !u!1 &8367731386364841343
 GameObject:
   m_ObjectHideFlags: 0
