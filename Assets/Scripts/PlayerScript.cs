@@ -25,12 +25,27 @@ public class PlayerScript : NetworkBehaviour
     private bool canInteract = false;
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
     [SerializeField] private AudioListener audioListener;
-
+    [SerializeField] private List<GameObject> meshesToDisable = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
 
+
+        if (IsOwner)
+        {
+            // Disable rendering of the head for the local player's camera
+            //cameraTransform.GetComponentInChildren<Camera>().cullingMask &= ~(1 << LayerMask.NameToLayer("Head"));
+            foreach (GameObject go in meshesToDisable)
+            {
+                go.SetActive(false);
+            }
+        }
+        //else
+        //{
+        //    // Enable rendering of the head for other players' cameras
+        //    cameraTransform.GetComponentInChildren<Camera>().cullingMask |= 1 << LayerMask.NameToLayer("Head");
+        //}
     }
 
     public override void OnNetworkSpawn()
