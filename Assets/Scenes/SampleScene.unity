@@ -515,7 +515,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919517378190834769, guid: 068ba86a055df394ab86178ab210e186, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.19472516
+      value: 0.86
       objectReference: {fileID: 0}
     - target: {fileID: 919517378190834769, guid: 068ba86a055df394ab86178ab210e186, type: 3}
       propertyPath: m_LocalPosition.z
@@ -552,6 +552,38 @@ PrefabInstance:
     - target: {fileID: 919517378190834769, guid: 068ba86a055df394ab86178ab210e186, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3397851828549131309, guid: 068ba86a055df394ab86178ab210e186, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.078
+      objectReference: {fileID: 0}
+    - target: {fileID: 3397851828549131309, guid: 068ba86a055df394ab86178ab210e186, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.094
+      objectReference: {fileID: 0}
+    - target: {fileID: 3397851828549131309, guid: 068ba86a055df394ab86178ab210e186, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.0273
+      objectReference: {fileID: 0}
+    - target: {fileID: 5309151224019480472, guid: 068ba86a055df394ab86178ab210e186, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5663935284501256286, guid: 068ba86a055df394ab86178ab210e186, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166736689449282881, guid: 068ba86a055df394ab86178ab210e186, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.102
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166736689449282881, guid: 068ba86a055df394ab86178ab210e186, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.106
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166736689449282881, guid: 068ba86a055df394ab86178ab210e186, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.02
       objectReference: {fileID: 0}
     - target: {fileID: 6495005381568308779, guid: 068ba86a055df394ab86178ab210e186, type: 3}
       propertyPath: m_Avatar
@@ -875,7 +907,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 1.02e-43, y: 5.5e-44, z: 2.0687e-41, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -1622,88 +1654,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1515487481
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1254715392767273020, guid: ce204429f2d07d24e833a9af473f2f11, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -4.4682245
-      objectReference: {fileID: 0}
-    - target: {fileID: 1254715392767273020, guid: ce204429f2d07d24e833a9af473f2f11, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.19472504
-      objectReference: {fileID: 0}
-    - target: {fileID: 1254715392767273020, guid: ce204429f2d07d24e833a9af473f2f11, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -1.7669706
-      objectReference: {fileID: 0}
-    - target: {fileID: 1254715392767273020, guid: ce204429f2d07d24e833a9af473f2f11, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1254715392767273020, guid: ce204429f2d07d24e833a9af473f2f11, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1254715392767273020, guid: ce204429f2d07d24e833a9af473f2f11, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1254715392767273020, guid: ce204429f2d07d24e833a9af473f2f11, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1254715392767273020, guid: ce204429f2d07d24e833a9af473f2f11, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1254715392767273020, guid: ce204429f2d07d24e833a9af473f2f11, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1254715392767273020, guid: ce204429f2d07d24e833a9af473f2f11, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1430862918641941073, guid: ce204429f2d07d24e833a9af473f2f11, type: 3}
-      propertyPath: GlobalObjectIdHash
-      value: 3957028866
-      objectReference: {fileID: 0}
-    - target: {fileID: 1883196976236589702, guid: ce204429f2d07d24e833a9af473f2f11, type: 3}
-      propertyPath: m_Name
-      value: Girl Variant
-      objectReference: {fileID: 0}
-    - target: {fileID: 3002063465420357492, guid: ce204429f2d07d24e833a9af473f2f11, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 5.2235e-41
-      objectReference: {fileID: 0}
-    - target: {fileID: 3002063465420357492, guid: ce204429f2d07d24e833a9af473f2f11, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3002063465420357492, guid: ce204429f2d07d24e833a9af473f2f11, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.000000029802322
-      objectReference: {fileID: 0}
-    - target: {fileID: 5154802792218915398, guid: ce204429f2d07d24e833a9af473f2f11, type: 3}
-      propertyPath: m_WarningMessage
-      value: "\nBinding warning: Some generic clip(s) animate transforms that are
-        already bound by a Humanoid avatar. These transforms can only be changed
-        by Humanoid clips.\n\tTransform 'mixamorig2:RightForeArm'\n\tTransform 'mixamorig2:RightHand'\n\tTransform
-        'mixamorig2:RightArm'\n\tTransform 'mixamorig2:RightForeArm'\n\tTransform
-        'mixamorig2:RightHand'\n\tTransform 'mixamorig2:RightArm'\n\tTransform 'mixamorig2:RightForeArm'\n\tTransform
-        'mixamorig2:RightHand'\n\tTransform 'mixamorig2:RightArm'"
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ce204429f2d07d24e833a9af473f2f11, type: 3}
 --- !u!1 &1541843097
 GameObject:
   m_ObjectHideFlags: 0
@@ -1901,7 +1851,7 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 1694899534}
-    PlayerPrefab: {fileID: 4840360300111525028, guid: 61ca5634b0e56e24ebbaa3c2aaccd2cd, type: 3}
+    PlayerPrefab: {fileID: 1883196976236589702, guid: ce204429f2d07d24e833a9af473f2f11, type: 3}
     Prefabs:
       NetworkPrefabsLists:
       - {fileID: 11400000, guid: eac4f08ef6124334f90a0eb717ebac76, type: 2}
@@ -1973,7 +1923,7 @@ MonoBehaviour:
   ConnectionData:
     Address: 127.0.0.1
     Port: 7777
-    ServerListenAddress: 
+    ServerListenAddress: 127.0.0.1
   DebugSimulator:
     PacketDelayMS: 0
     PacketJitterMS: 0
@@ -2448,6 +2398,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FullMap
       objectReference: {fileID: 0}
+    - target: {fileID: 7379313061045390217, guid: ece28a8ac3aa2a14288ecf3e71fef2b7, type: 3}
+      propertyPath: m_TagString
+      value: Floor
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2596,4 +2550,3 @@ SceneRoots:
   - {fileID: 6670317306239215079}
   - {fileID: 1307426090}
   - {fileID: 258514075}
-  - {fileID: 1515487481}

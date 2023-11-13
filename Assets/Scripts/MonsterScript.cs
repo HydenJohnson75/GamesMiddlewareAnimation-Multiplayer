@@ -13,6 +13,7 @@ public class MonsterScript : MonoBehaviour
     [SerializeField] private float visionRange;
     [SerializeField] private float visionAngle;
 
+
     Animator animator;
     private AudioSource audioSource;
     public bool shouldRoar = false;
@@ -32,45 +33,18 @@ public class MonsterScript : MonoBehaviour
         fieldOfView = GetComponent<ConeFieldOfView>();
     }
 
-    private void Step_Left()
-    {
-        AudioClip clip = GetRandomClip();
-        audioSource.PlayOneShot(clip);
-    }
-
-    private void Step_Right()
-    {
-        AudioClip clip = GetRandomClip();
-        audioSource.PlayOneShot(clip);
-    }
-
-    private void Run_Left()
-    {
-        AudioClip clip = GetRandomClip();
-        audioSource.PlayOneShot(clip);
-    }
-
-    private void Run_Right()
-    {
-        AudioClip clip = GetRandomClip();
-        audioSource.PlayOneShot(clip);
-    }
 
     private void Scream()
     {
         audioSource.PlayOneShot(screamSound);
     }
 
-    private AudioClip GetRandomClip()
-    {
-        return footSounds[UnityEngine.Random.Range(0, footSounds.Length)];
-    }
 
     // Start is called before the first frame update
     void Start()
     {
-        shouldWalk = true;
-        animator.SetBool("IsWalking", shouldWalk);
+        //shouldWalk = true;
+        //animator.SetBool("IsWalking", shouldWalk);
     }
 
     // update is called once per frame
@@ -89,79 +63,79 @@ public class MonsterScript : MonoBehaviour
             shouldWalk = true;
         }
         
-        if(!shouldWalk && shouldRun)
-        {
-            animator.SetBool("IsRunning", shouldRun);
-            animator.SetBool("IsWalking", shouldWalk);
-        }
-        if(shouldWalk && !shouldRun)
-        {
-            animator.SetBool("IsRunning", shouldRun);
-            animator.SetBool("IsWalking", shouldWalk);
-        }
-        if (!shouldWalk && shouldRoar)
-        {
-            animator.SetBool("IsRoaring", shouldRoar);
-            animator.SetBool("IsWalking", shouldWalk);
-            shouldRoar = false;
-            if (timer >= 0)
-            {
-                timer = timer- Time.deltaTime;
-            }
-            else
-            {
+        //if(!shouldWalk && shouldRun)
+        //{
+        //    animator.SetBool("IsRunning", shouldRun);
+        //    animator.SetBool("IsWalking", shouldWalk);
+        //}
+        //if(shouldWalk && !shouldRun)
+        //{
+        //    animator.SetBool("IsRunning", shouldRun);
+        //    animator.SetBool("IsWalking", shouldWalk);
+        //}
+        //if (!shouldWalk && shouldRoar)
+        //{
+        //    animator.SetBool("IsRoaring", shouldRoar);
+        //    animator.SetBool("IsWalking", shouldWalk);
+        //    shouldRoar = false;
+        //    if (timer >= 0)
+        //    {
+        //        timer = timer- Time.deltaTime;
+        //    }
+        //    else
+        //    {
                 
-                shouldRun = true;
-                timer = 1.5f;
-            }
+        //        shouldRun = true;
+        //        timer = 1.5f;
+        //    }
             
             
-        }
-        if (shouldWalk && !shouldRoar)
-        {
-            animator.SetBool("IsRoaring", shouldRoar);
-            animator.SetBool("IsWalking", shouldWalk);
-        }
-        if (!shouldRun && shouldRoar)
-        {
-            animator.SetBool("IsRoaring", shouldRoar);
-            animator.SetBool("IsRunning", shouldRun);
-        }
-        if (shouldRun && !shouldRoar)
-        {
-            animator.SetBool("IsRoaring", shouldRoar);
-            animator.SetBool("IsRunning", shouldRun);
-            if (playerInView)
-            {
-                MoveTowardsPlayer();
-            }
-            else
-            {
-                shouldRun = false;
-            }
+        //}
+        //if (shouldWalk && !shouldRoar)
+        //{
+        //    animator.SetBool("IsRoaring", shouldRoar);
+        //    animator.SetBool("IsWalking", shouldWalk);
+        //}
+        //if (!shouldRun && shouldRoar)
+        //{
+        //    animator.SetBool("IsRoaring", shouldRoar);
+        //    animator.SetBool("IsRunning", shouldRun);
+        //}
+        //if (shouldRun && !shouldRoar)
+        //{
+        //    animator.SetBool("IsRoaring", shouldRoar);
+        //    animator.SetBool("IsRunning", shouldRun);
+        //    if (playerInView)
+        //    {
+        //        MoveTowardsPlayer();
+        //    }
+        //    else
+        //    {
+        //        shouldRun = false;
+        //    }
                
-        }
+        //}
 
-        if (!shouldWalk && shouldAttack)
-        {
-            animator.SetBool("IsAttacking", shouldAttack);
-            animator.SetBool("IsWalking", shouldWalk);
-        }
-        if (shouldWalk && !shouldAttack)
-        {
-            animator.SetBool("IsAttacking", shouldAttack);
-            animator.SetBool("IsWalking", shouldWalk);
-        }
-        if (!shouldRun && shouldAttack)
-        {
-            animator.SetBool("IsAttacking", shouldAttack);
-            animator.SetBool("IsRunning", shouldRun);
-        }
-        if (shouldRun && !shouldAttack)
-        {
-            animator.SetBool("IsAttacking", shouldAttack);
-            animator.SetBool("IsRunning", shouldRun);
-        }
+        //if (!shouldWalk && shouldAttack)
+        //{
+        //    animator.SetBool("IsAttacking", shouldAttack);
+        //    animator.SetBool("IsWalking", shouldWalk);
+        //}
+        //if (shouldWalk && !shouldAttack)
+        //{
+        //    animator.SetBool("IsAttacking", shouldAttack);
+        //    animator.SetBool("IsWalking", shouldWalk);
+        //}
+        //if (!shouldRun && shouldAttack)
+        //{
+        //    animator.SetBool("IsAttacking", shouldAttack);
+        //    animator.SetBool("IsRunning", shouldRun);
+        //}
+        //if (shouldRun && !shouldAttack)
+        //{
+        //    animator.SetBool("IsAttacking", shouldAttack);
+        //    animator.SetBool("IsRunning", shouldRun);
+        //}
 
         //if (shouldroar)
         //{
@@ -200,7 +174,6 @@ public class MonsterScript : MonoBehaviour
         }
         return false;
 
-        //shouldRun = false; // No player detected.
     }
 
     void MoveTowardsPlayer()
@@ -212,7 +185,7 @@ public class MonsterScript : MonoBehaviour
             if (selectedTarget != null)
             {
                 Vector3 directionToPlayer = selectedTarget.position - transform.position;
-                directionToPlayer.y = 0; // Ensure the monster doesn't fly upwards.
+                directionToPlayer.y = 0;
                 directionToPlayer.Normalize();
                 transform.forward = directionToPlayer;
                 transform.Translate(Vector3.forward * currentSpeed * Time.deltaTime);

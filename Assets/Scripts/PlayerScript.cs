@@ -26,6 +26,8 @@ public class PlayerScript : NetworkBehaviour
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
     [SerializeField] private AudioListener audioListener;
     [SerializeField] private List<GameObject> meshesToDisable = new List<GameObject>();
+
+    [SerializeField] private GameObject aimingTarget;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,7 +36,7 @@ public class PlayerScript : NetworkBehaviour
 
         if (IsOwner)
         {
-            // Disable rendering of the head for the local player's camera
+
             //cameraTransform.GetComponentInChildren<Camera>().cullingMask &= ~(1 << LayerMask.NameToLayer("Head"));
             foreach (GameObject go in meshesToDisable)
             {
@@ -54,6 +56,15 @@ public class PlayerScript : NetworkBehaviour
         {
             audioListener.enabled = true;
             virtualCamera.Priority = 1;
+
+            if (aimingTarget != null)
+            {
+                aimingTarget.transform.position = virtualCamera.transform.position + virtualCamera.transform.forward;
+            }
+            else
+            {
+                return;
+            }
         }
         else
         {
@@ -64,8 +75,17 @@ public class PlayerScript : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (IsOwner && IsLocalPlayer)
+        if (IsOwner )
         {
+            if (aimingTarget != null)
+            {
+                aimingTarget.transform.position = virtualCamera.transform.position + virtualCamera.transform.forward;
+            }
+            else
+            {
+                return;
+            }
+
             float targetHorizontal = Input.GetAxis("Horizontal");
             float targetVertical = Input.GetAxis("Vertical");
 
@@ -119,6 +139,8 @@ public class PlayerScript : NetworkBehaviour
                     InteractServerRPC();
                 }
             }
+
+
         }
     }
 
