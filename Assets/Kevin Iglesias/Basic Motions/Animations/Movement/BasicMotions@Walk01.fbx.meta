@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: bd1c2e9064da28e4fb0fe4a3f6ff4e33
 ModelImporter:
-  serializedVersion: 20200
+  serializedVersion: 22200
   internalIDToNameTable:
   - first:
       1: 100000
@@ -560,6 +560,7 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -601,7 +602,21 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.030290538
+        functionName: StepRight
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 3e574c0e7028a6a40b875619ad4bc604, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.4951625
+        functionName: StepLeft
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 3e574c0e7028a6a40b875619ad4bc604, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -630,7 +645,21 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.016920473
+        functionName: StepRight
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 3e574c0e7028a6a40b875619ad4bc604, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.51945853
+        functionName: StepLeft
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 3e574c0e7028a6a40b875619ad4bc604, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -659,7 +688,21 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0
+        functionName: StepRight
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 3e574c0e7028a6a40b875619ad4bc604, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.50930625
+        functionName: StepLeft
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 3e574c0e7028a6a40b875619ad4bc604, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -688,7 +731,21 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0
+        functionName: StepRight
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 3e574c0e7028a6a40b875619ad4bc604, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.5076142
+        functionName: StepLeft
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 3e574c0e7028a6a40b875619ad4bc604, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -717,7 +774,21 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0
+        functionName: StepRight
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 3e574c0e7028a6a40b875619ad4bc604, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.50930625
+        functionName: StepLeft
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 3e574c0e7028a6a40b875619ad4bc604, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -746,7 +817,21 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.0016920473
+        functionName: StepLeft
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 3e574c0e7028a6a40b875619ad4bc604, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.52622676
+        functionName: StepRight
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 3e574c0e7028a6a40b875619ad4bc604, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -775,7 +860,21 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.03891709
+        functionName: StepLeft
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 3e574c0e7028a6a40b875619ad4bc604, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.53637904
+        functionName: StepRight
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 3e574c0e7028a6a40b875619ad4bc604, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -804,7 +903,21 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.030456854
+        functionName: StepLeft
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.5397631
+        functionName: StepRight
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 3e574c0e7028a6a40b875619ad4bc604, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -817,10 +930,12 @@ ModelImporter:
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
+    importPhysicalCameras: 1
     importVisibility: 0
     importBlendShapes: 0
     importCameras: 0
     importLights: 0
+    nodeNameCollisionStrategy: 0
     fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
@@ -832,6 +947,7 @@ ModelImporter:
     skinWeightsMode: 0
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
+    optimizeBones: 1
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
@@ -842,6 +958,7 @@ ModelImporter:
     secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -1623,6 +1740,8 @@ ModelImporter:
   humanoidOversampling: 1
   avatarSetup: 2
   addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

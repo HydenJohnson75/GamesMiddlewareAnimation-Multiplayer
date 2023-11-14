@@ -8,6 +8,7 @@ TagManager:
   - Interactable
   - PlayerCard
   - ChatMessage
+  - Flashlight
   layers:
   - Default
   - TransparentFX

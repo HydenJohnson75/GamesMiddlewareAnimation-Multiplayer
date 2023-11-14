@@ -4,6 +4,8 @@ using Unity.VisualScripting;
 using Unity.Netcode;
 using UnityEngine;
 using Cinemachine;
+using System.Runtime.CompilerServices;
+using UnityEngine.Animations.Rigging;
 
 public class PlayerScript : NetworkBehaviour
 {
@@ -23,26 +25,51 @@ public class PlayerScript : NetworkBehaviour
     private float currentVertical = 0f;
     private Door interactableObject;
     private bool canInteract = false;
+    public bool isWalking;
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
     [SerializeField] private AudioListener audioListener;
+    [SerializeField] private AudioSource audioSourceLFoot;
+    [SerializeField] private AudioSource audioSourceRFoot;
     [SerializeField] private List<GameObject> meshesToDisable = new List<GameObject>();
-
+    [SerializeField] private AudioClip footStepClip;
     [SerializeField] private GameObject aimingTarget;
+
+    [SerializeField] private GameObject handBone;
+    [SerializeField] private Transform flashLightPref;
+    private Flashlight flashLight;
+    [SerializeField] private Transform lFoot;
+    [SerializeField] private Transform rFoot;
+    [SerializeField] Rig R_HandIK;
+    private bool isGroundedLeft;
+    private bool isGroundedRight;
+
+    Transform spawnedFlashlightTransform;
+
+    NetworkVariable<int> IKRigWeight = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     // Start is called before the first frame update
     void Start()
     {
-        animator = GetComponent<Animator>();
+        
+
 
 
         if (IsOwner)
         {
+            animator = GetComponent<Animator>();
+
+            
 
             //cameraTransform.GetComponentInChildren<Camera>().cullingMask &= ~(1 << LayerMask.NameToLayer("Head"));
             foreach (GameObject go in meshesToDisable)
             {
                 go.SetActive(false);
             }
+
+            
+
         }
+
+
         //else
         //{
         //    // Enable rendering of the head for other players' cameras
@@ -56,7 +83,7 @@ public class PlayerScript : NetworkBehaviour
         {
             audioListener.enabled = true;
             virtualCamera.Priority = 1;
-
+            IKRigWeight = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
             if (aimingTarget != null)
             {
                 aimingTarget.transform.position = virtualCamera.transform.position + virtualCamera.transform.forward;
@@ -65,6 +92,11 @@ public class PlayerScript : NetworkBehaviour
             {
                 return;
             }
+
+            IKRigWeight.OnValueChanged += (oldVal, newVal) =>
+            {
+                R_HandIK.weight = newVal;
+            };
         }
         else
         {
@@ -75,7 +107,7 @@ public class PlayerScript : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (IsOwner )
+        if (IsOwner)
         {
             if (aimingTarget != null)
             {
@@ -104,32 +136,47 @@ public class PlayerScript : NetworkBehaviour
                 transform.Translate(Vector3.forward * currentSpeed * Time.deltaTime);
             }
 
+
             if (Input.GetKey(KeyCode.S))
             {
                 transform.Translate(Vector3.back * currentSpeed * Time.deltaTime);
+
             }
 
             if (Input.GetKey(KeyCode.A))
             {
                 transform.Translate(Vector3.left * currentSpeed * Time.deltaTime);
+
             }
+
 
             if (Input.GetKey(KeyCode.D))
             {
                 transform.Translate(Vector3.right * currentSpeed * Time.deltaTime);
             }
+            
+            if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A)|| Input.GetKey(KeyCode.D))
+            {
+                isWalking = true;
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    animator.SetBool("IsRunning", true);
+                }
+                else
+                {
+                    animator.SetBool("IsRunning", false);
+                }
+            }
+            else
+            {
+                isWalking = false;
+                animator.SetBool("IsRunning", false);
+            }
 
             animator.SetFloat("X", currentHorizontal);
             animator.SetFloat("Y", currentVertical);
 
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                animator.SetBool("IsRunning", true);
-            }
-            else
-            {
-                animator.SetBool("IsRunning", false);
-            }
+
             moveCamera();
 
             if (canInteract)
@@ -140,8 +187,61 @@ public class PlayerScript : NetworkBehaviour
                 }
             }
 
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                SpawnFlashLightServerRpc();
+            }
 
+            if (spawnedFlashlightTransform != null)
+            {
+                MoveFlashlightClientRPC();
+            }
+
+            if(isWalking)
+            {
+                isGroundedLeft = Physics.Raycast(lFoot.transform.position, Vector3.down, 0.07f, LayerMask.GetMask("Floor"));
+                isGroundedRight = Physics.Raycast(rFoot.transform.position, Vector3.down, 0.07f, LayerMask.GetMask("Floor"));
+
+                Debug.DrawRay(lFoot.transform.position, Vector3.down * 0.07f, Color.cyan, 0.1f);
+                Debug.DrawRay(rFoot.transform.position, Vector3.down * 0.07f, Color.cyan, 0.1f);
+
+                if (isGroundedLeft == true)
+                {
+                    if (!audioSourceLFoot.isPlaying)
+                    {
+                        audioSourceLFoot.pitch = Random.Range(0.75f, 1.2f);
+                        audioSourceLFoot.PlayOneShot(footStepClip);
+                    }
+
+                }
+
+                if (isGroundedRight == true)
+                {
+                    if (!audioSourceRFoot.isPlaying)
+                    {
+                        audioSourceRFoot.pitch = Random.Range(0.75f, 1.2f);
+                        audioSourceRFoot.PlayOneShot(footStepClip);
+                    }
+
+                }
+            }
+
+
+            if (Input.GetKeyDown(KeyCode.I)) 
+            {
+                R_HandIK.weight = R_HandIK.weight == 0 ? 1 : 0;
+            }
+
+
+            Debug.Log(isGroundedLeft);
         }
+
+    }
+
+    [ClientRpc] 
+    private void moveClientRpc()
+    {
+        
     }
 
     private void moveCamera()
@@ -168,7 +268,32 @@ public class PlayerScript : NetworkBehaviour
                 canInteract = true;
             }
 
+            if (other.gameObject.tag == "Flashlight")
+            {
+                //flashLight = other.gameObject.ConvertTo<Flashlight>();
+                //flashLight.pickUp();
+                //flashLight.transform.SetParent(gameObject.transform,false);
+            }
+
         }
+
+        
+    }
+
+
+    [ServerRpc]
+    private void SpawnFlashLightServerRpc()
+    {
+        spawnedFlashlightTransform = Instantiate(flashLightPref);
+        spawnedFlashlightTransform.GetComponent<NetworkObject>().Spawn(true);
+        spawnedFlashlightTransform.GetComponent<NetworkObject>().TrySetParent(gameObject,false);
+        spawnedFlashlightTransform.position = handBone.transform.position;
+    }
+
+    [ClientRpc]
+    private void MoveFlashlightClientRPC()
+    {
+        spawnedFlashlightTransform.position = handBone.transform.position;
     }
 
     private void OnTriggerExit(Collider other)
