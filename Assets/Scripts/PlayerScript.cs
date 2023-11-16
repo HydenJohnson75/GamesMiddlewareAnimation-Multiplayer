@@ -43,30 +43,31 @@ public class PlayerScript : NetworkBehaviour
     private bool isGroundedLeft;
     private bool isGroundedRight;
 
-    Transform spawnedFlashlightTransform;
+    [SerializeField] Transform spawnedFlashlightTransform;
+    [SerializeField] GameObject spawnedFlashlightGO;
+
+
 
     NetworkVariable<int> IKRigWeight = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     // Start is called before the first frame update
     void Start()
     {
-        
 
-
-
-        if (IsOwner)
+        IKRigWeight.OnValueChanged += (oldVal, newVal) =>
         {
-            animator = GetComponent<Animator>();
+            R_HandIK.weight = newVal;
+        };
 
-            
 
-            //cameraTransform.GetComponentInChildren<Camera>().cullingMask &= ~(1 << LayerMask.NameToLayer("Head"));
-            foreach (GameObject go in meshesToDisable)
-            {
-                go.SetActive(false);
-            }
+        if (!IsOwner)
+        {
+            return;
+        }
+        animator = GetComponent<Animator>();
 
-            
-
+        foreach (GameObject go in meshesToDisable)
+        {
+            go.SetActive(false);
         }
 
 
@@ -83,7 +84,7 @@ public class PlayerScript : NetworkBehaviour
         {
             audioListener.enabled = true;
             virtualCamera.Priority = 1;
-            IKRigWeight = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
             if (aimingTarget != null)
             {
                 aimingTarget.transform.position = virtualCamera.transform.position + virtualCamera.transform.forward;
@@ -93,10 +94,7 @@ public class PlayerScript : NetworkBehaviour
                 return;
             }
 
-            IKRigWeight.OnValueChanged += (oldVal, newVal) =>
-            {
-                R_HandIK.weight = newVal;
-            };
+
         }
         else
         {
@@ -107,8 +105,8 @@ public class PlayerScript : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (IsOwner)
-        {
+        if (!IsLocalPlayer) return;
+
             if (aimingTarget != null)
             {
                 aimingTarget.transform.position = virtualCamera.transform.position + virtualCamera.transform.forward;
@@ -124,10 +122,6 @@ public class PlayerScript : NetworkBehaviour
             currentHorizontal = Mathf.Lerp(currentHorizontal, targetHorizontal, Time.deltaTime * parameterSmoothing);
             currentVertical = Mathf.Lerp(currentVertical, targetVertical, Time.deltaTime * parameterSmoothing);
 
-            Vector3 cameraForward = cameraTransform.forward;
-
-            cameraForward.y = 0;
-            cameraForward.Normalize();
 
             currentSpeed = Input.GetKey(KeyCode.LeftShift) ? sprintMultiplier : moveSpeed;
 
@@ -177,8 +171,6 @@ public class PlayerScript : NetworkBehaviour
             animator.SetFloat("Y", currentVertical);
 
 
-            moveCamera();
-
             if (canInteract)
             {
                 if (Input.GetKey(KeyCode.E))
@@ -189,12 +181,13 @@ public class PlayerScript : NetworkBehaviour
 
             if (Input.GetKeyDown(KeyCode.T))
             {
-                SpawnFlashLightServerRpc();
+            //SpawnFlashLight();
+            activeObServerRpc();
             }
 
             if (spawnedFlashlightTransform != null)
             {
-                MoveFlashlightClientRPC();
+                //MoveFlashlightServerRpc();
             }
 
             if(isWalking)
@@ -229,32 +222,32 @@ public class PlayerScript : NetworkBehaviour
 
             if (Input.GetKeyDown(KeyCode.I)) 
             {
-                R_HandIK.weight = R_HandIK.weight == 0 ? 1 : 0;
+                IKRigWeight.Value = R_HandIK.weight == 0 ? 1 : 0;
             }
 
 
             Debug.Log(isGroundedLeft);
-        }
 
     }
 
-    [ClientRpc] 
-    private void moveClientRpc()
+    [ServerRpc(RequireOwnership = false)] 
+    private void moveServerRpc()
     {
         
     }
 
-    private void moveCamera()
+    [ServerRpc]
+    private void activeObServerRpc()
     {
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
-
-        currentRotationX -= mouseY * sensitivity;
-        currentRotationX = Mathf.Clamp(currentRotationX, minYRotation, maxYRotation);
-
-        cameraTransform.localRotation = Quaternion.Euler(currentRotationX, 0, 0);
-        transform.Rotate(Vector3.up * mouseX * sensitivity);
+        activeObClientRpc();
     }
+
+    [ClientRpc]
+    private void activeObClientRpc()
+    {
+        spawnedFlashlightGO.SetActive(true);
+    }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -281,17 +274,18 @@ public class PlayerScript : NetworkBehaviour
     }
 
 
-    [ServerRpc]
-    private void SpawnFlashLightServerRpc()
+
+    private void SpawnFlashLight()
     {
         spawnedFlashlightTransform = Instantiate(flashLightPref);
-        spawnedFlashlightTransform.GetComponent<NetworkObject>().Spawn(true);
-        spawnedFlashlightTransform.GetComponent<NetworkObject>().TrySetParent(gameObject,false);
-        spawnedFlashlightTransform.position = handBone.transform.position;
+        spawnedFlashlightTransform.transform.position = handBone.transform.position;
+        //spawnedFlashlightTransform.GetComponent<NetworkObject>().Spawn(true);
+        //spawnedFlashlightTransform.GetComponent<NetworkObject>().TrySetParent(gameObject,false);
+        //spawnedFlashlightTransform.GetComponent<Flashlight>().setHandBone(handBone);
     }
 
-    [ClientRpc]
-    private void MoveFlashlightClientRPC()
+    [ServerRpc]
+    private void MoveFlashlightServerRpc()
     {
         spawnedFlashlightTransform.position = handBone.transform.position;
     }

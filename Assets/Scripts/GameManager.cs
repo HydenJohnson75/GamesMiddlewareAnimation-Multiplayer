@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    [SerializeField] private GameObject mainMenu, lobbyMenu;
+    [SerializeField] private GameObject mainMenu, lobbyMenu, optionsMenu;
 
     [SerializeField] private GameObject chatPanel, textObject;
     [SerializeField] private TMP_InputField inputField;
@@ -117,6 +117,18 @@ public class GameManager : MonoBehaviour
         lobbyMenu.SetActive(true);
         isHost = true;
         connected = true;
+    }
+
+    public void OptionsSelected()
+    {
+        mainMenu.SetActive(false);
+        optionsMenu.SetActive(true);
+    }
+
+    public void OptionsBack()
+    {
+        mainMenu.SetActive(true);
+        optionsMenu.SetActive(false);
     }
 
     public void ConnectedAsClient()

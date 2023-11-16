@@ -95,8 +95,6 @@ GameObject:
   - component: {fileID: 398696534464367328}
   - component: {fileID: 9081728027596241314}
   - component: {fileID: 6548607867172133228}
-  - component: {fileID: 746929801974262193}
-  - component: {fileID: 8799814709210889341}
   m_Layer: 0
   m_Name: FlashLight
   m_TagString: Flashlight
@@ -177,56 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f787360392c12ea40bc366d6d1ffd7b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &746929801974262193
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1983864843291051171}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 951099334
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 1
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
---- !u!114 &8799814709210889341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1983864843291051171}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df2868252ab5c4d1da357e8f11f1b524, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SyncPositionX: 1
-  SyncPositionY: 1
-  SyncPositionZ: 1
-  SyncRotAngleX: 1
-  SyncRotAngleY: 1
-  SyncRotAngleZ: 1
-  SyncScaleX: 0
-  SyncScaleY: 0
-  SyncScaleZ: 0
-  PositionThreshold: 0.001
-  RotAngleThreshold: 0.01
-  ScaleThreshold: 0.01
-  UseQuaternionSynchronization: 0
-  UseQuaternionCompression: 0
-  UseHalfFloatPrecision: 0
-  InLocalSpace: 0
-  Interpolate: 0
-  SlerpPosition: 0
+  handBone: {fileID: 0}
 --- !u!1 &4251907181625918447
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,8 +303,8 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 5.59
-  m_Range: 6.16
+  m_Intensity: 2.13
+  m_Range: 17.11
   m_SpotAngle: 77.4
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
