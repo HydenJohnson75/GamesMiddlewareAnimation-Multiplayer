@@ -180,6 +180,15 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.unity.postprocessing": {
+      "version": "3.2.2",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.physics": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.profiling.core": {
       "version": "1.0.2",
       "depth": 1,
@@ -357,6 +366,13 @@
         "com.unity.modules.jsonserialize": "1.0.0"
       },
       "url": "https://packages.unity.com"
+    },
+    "com.varneon.fbx-to-blender-importer": {
+      "version": "https://github.com/Varneon/UnityFBX-To-Blender-Importer.git?path=/Packages/com.varneon.fbx-to-blender-importer",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "186476b7b97113f618f2af42aecf2647d0abc91f"
     },
     "com.veriorpies.parrelsync": {
       "version": "https://github.com/VeriorPies/ParrelSync.git?path=/ParrelSync",

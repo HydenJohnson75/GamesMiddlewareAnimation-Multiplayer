@@ -39,19 +39,20 @@ public class PlayerScript : NetworkBehaviour
     private Flashlight flashLight;
     [SerializeField] private Transform lFoot;
     [SerializeField] private Transform rFoot;
-    [SerializeField] Rig R_HandIK;
+    [SerializeField] TwoBoneIKConstraint R_HandIK;
     private bool isGroundedLeft;
     private bool isGroundedRight;
 
     [SerializeField] Transform spawnedFlashlightTransform;
     [SerializeField] GameObject spawnedFlashlightGO;
-
+    [SerializeField] private GameObject spawnLocation;
 
 
     NetworkVariable<int> IKRigWeight = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     // Start is called before the first frame update
     void Start()
     {
+        spawnLocation = GameObject.Find("PlayerSpawn");
 
         IKRigWeight.OnValueChanged += (oldVal, newVal) =>
         {
@@ -64,6 +65,7 @@ public class PlayerScript : NetworkBehaviour
             return;
         }
         animator = GetComponent<Animator>();
+        transform.position = spawnLocation.transform.position;
 
         foreach (GameObject go in meshesToDisable)
         {
