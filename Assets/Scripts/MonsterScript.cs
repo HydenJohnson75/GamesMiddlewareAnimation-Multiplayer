@@ -318,24 +318,28 @@ public class MonsterScript : MonoBehaviour
     {
         if(fieldOfView.visablesTargets != null)
         {
-
-            if (fieldOfView.visablesTargets[0])
+            if (fieldOfView.visablesTargets.Count > 0)
             {
-                Transform selectedTarget = fieldOfView.visablesTargets[0];
 
-                if (selectedTarget != null)
+                if (fieldOfView.visablesTargets[0])
                 {
+                    Transform selectedTarget = fieldOfView.visablesTargets[0];
 
-                    playerLastLocation = selectedTarget.position;
-                    Vector3 directionToPlayer = selectedTarget.position - transform.position;
-                    directionToPlayer.y = 0;
-                    directionToPlayer.Normalize();
-                    transform.forward = directionToPlayer;
-                    transform.Translate(Vector3.forward * currentSpeed * Time.deltaTime);
+                    if (selectedTarget != null)
+                    {
+
+                        playerLastLocation = selectedTarget.position;
+                        Vector3 directionToPlayer = selectedTarget.position - transform.position;
+                        directionToPlayer.y = 0;
+                        directionToPlayer.Normalize();
+                        transform.forward = directionToPlayer;
+                        transform.Translate(Vector3.forward * currentSpeed * Time.deltaTime);
+                    }
                 }
+
             }
+        }
             
-        }     
         
     }
 
