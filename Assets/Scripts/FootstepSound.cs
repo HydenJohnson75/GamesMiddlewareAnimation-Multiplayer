@@ -42,7 +42,7 @@ public class FootstepSound : StateMachineBehaviour
             }
         }
 
-        Debug.Log(normalizedTime);
+        //Debug.Log(normalizedTime);
     }
 
     private void PlayFootstepSound(AudioSource audioSource)

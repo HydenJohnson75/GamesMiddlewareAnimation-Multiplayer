@@ -19,7 +19,7 @@ public class MonsterScript : MonoBehaviour
     [SerializeField] private float runSpeed = 3.5f;
 
     private Transform currentLocation;
-    private enum monsterStates {walking, running, searching, idle, screaming, hitting};
+    private enum monsterStates {walking, running, searching, idle, screaming, hitting, looking};
     private monsterStates currentState = monsterStates.idle;
 
     Animator animator;
@@ -36,6 +36,7 @@ public class MonsterScript : MonoBehaviour
     private bool playerInView = false; 
     private NavMeshAgent navMeshAgent;
     public bool shouldIMove = false;
+    private float searchTimer = 5f;
 
     private Vector3 playerLastLocation;
     private void Awake()
@@ -76,18 +77,21 @@ public class MonsterScript : MonoBehaviour
             //currentState = monsterStates.walking;
         }
 
+        Debug.Log(currentState);
+        players = GameObject.FindGameObjectsWithTag("Player").ToList<GameObject>();
         switch (currentState)
         {
             case monsterStates.idle:
                 {
                     shouldWalk = false;
                     shouldIdle = true;
-                    shouldSearch = true;
+                    shouldSearch = false;
                     setAllAnimations();
                     if (timer <= 0f)
                     {
                         shouldIMove = true;
                         selectLocation();
+                        navMeshAgent.isStopped = false;
                         currentState = monsterStates.walking;
                     }
                     timer = timer - Time.deltaTime;
@@ -96,6 +100,7 @@ public class MonsterScript : MonoBehaviour
             case monsterStates.walking:
                 {
                     timer = 3f;
+                    searchTimer = 5f;
                     //currentState= monsterStates.running;    
                     navMeshAgent.speed = walkSpeed;
                     shouldWalk = true;
@@ -108,7 +113,6 @@ public class MonsterScript : MonoBehaviour
                     {
                         shouldIMove = false;
                         currentState = monsterStates.idle;
-                        
                     }
                     break;
                 }
@@ -123,7 +127,8 @@ public class MonsterScript : MonoBehaviour
                     shouldSearch = false;
 
                     setAllAnimations();
-                    navMeshAgent.enabled = false;
+                    navMeshAgent.isStopped = true;
+
                     MoveTowardsPlayer();
                     if (!fieldOfView.FindVisableTargets())
                     {
@@ -141,23 +146,41 @@ public class MonsterScript : MonoBehaviour
                 }
             case monsterStates.searching:
                 {
-                    navMeshAgent.enabled = true;
-                    navMeshAgent.Move( playerLastLocation);
+                    navMeshAgent.isStopped = false;
+                    fieldOfView.visionRadius = 20;
+                    //navMeshAgent.enabled = true;
+                    navMeshAgent.SetDestination(playerLastLocation);
                     shouldIdle = false;
                     shouldSearch = false;
                     shouldWalk = true;
+                    shouldRun = false;
+                    setAllAnimations();
 
 
-                    
-
-                    if (Vector3.Distance(transform.position, currentLocation.position) <= 1.0f)
+                    if (Vector3.Distance(transform.position, playerLastLocation) <= 1.0f)
                     {
-                        shouldIdle = true;
-                        shouldWalk = false;
-                        shouldSearch = true;
+                        currentState = monsterStates.looking;
                     }
 
+                    
+                    break;
+                }
+            case monsterStates.looking:
+                {
+                    shouldWalk = false;
+                    shouldIdle = true;
+                    shouldSearch = true;
+                    shouldAttack = false;
+                    shouldRoar = false;
+                    shouldRun = false;
                     setAllAnimations();
+
+                    if(timer <= 0f)
+                    {
+                        currentState = monsterStates.walking;
+                    }
+                    timer = timer -Time.deltaTime;
+
                     break;
                 }
             default:
@@ -167,117 +190,21 @@ public class MonsterScript : MonoBehaviour
         }
 
 
-        players = GameObject.FindGameObjectsWithTag("Player").ToList<GameObject>();
-
-        //if (navMeshAgent.velocity.magnitude > 0.1f)
-        //{
-        //    shouldWalk = true;
-        //}
+        
 
 
 
+       // Debug.Log("Distance to destination: " + Vector3.Distance(transform.position, currentLocation.position));
 
-        Debug.Log("Distance to destination: " + Vector3.Distance(transform.position, currentLocation.position));
-
-        //if(!shouldWalk && shouldRun)
-        //{
-        //    animator.SetBool("IsRunning", shouldRun);
-        //    animator.SetBool("IsWalking", shouldWalk);
-        //}
-        //if(shouldWalk && !shouldRun)
-        //{
-        //    animator.SetBool("IsRunning", shouldRun);
-        //    animator.SetBool("IsWalking", shouldWalk);
-        //}
-        //if (!shouldWalk && shouldRoar)
-        //{
-        //    animator.SetBool("IsRoaring", shouldRoar);
-        //    animator.SetBool("IsWalking", shouldWalk);
-        //    shouldRoar = false;
-        //    if (timer >= 0)
-        //    {
-        //        timer = timer- Time.deltaTime;
-        //    }
-        //    else
-        //    {
-
-        //        shouldRun = true;
-        //        timer = 1.5f;
-        //    }
-
-
-        //}
-        //if (shouldWalk && !shouldRoar)
-        //{
-        //    animator.SetBool("IsRoaring", shouldRoar);
-        //    animator.SetBool("IsWalking", shouldWalk);
-        //}
-        //if (!shouldRun && shouldRoar)
-        //{
-        //    animator.SetBool("IsRoaring", shouldRoar);
-        //    animator.SetBool("IsRunning", shouldRun);
-        //}
-        //if (shouldRun && !shouldRoar)
-        //{
-        //    animator.SetBool("IsRoaring", shouldRoar);
-        //    animator.SetBool("IsRunning", shouldRun);
-        //    if (playerInView)
-        //    {
-        //        MoveTowardsPlayer();
-        //    }
-        //    else
-        //    {
-        //        shouldRun = false;
-        //    }
-
-        //}
-
-        //if (!shouldWalk && shouldAttack)
-        //{
-        //    animator.SetBool("IsAttacking", shouldAttack);
-        //    animator.SetBool("IsWalking", shouldWalk);
-        //}
-        //if (shouldWalk && !shouldAttack)
-        //{
-        //    animator.SetBool("IsAttacking", shouldAttack);
-        //    animator.SetBool("IsWalking", shouldWalk);
-        //}
-        //if (!shouldRun && shouldAttack)
-        //{
-        //    animator.SetBool("IsAttacking", shouldAttack);
-        //    animator.SetBool("IsRunning", shouldRun);
-        //}
-        //if (shouldRun && !shouldAttack)
-        //{
-        //    animator.SetBool("IsAttacking", shouldAttack);
-        //    animator.SetBool("IsRunning", shouldRun);
-        //}
-
-        //if (shouldroar)
-        //{
-        //    animator.setbool("ischasing", shouldroar);
-
-        //    shouldrun = true;
-        //}
-        //if (shouldrun && !shouldroar)
-        //{
-        //    animator.setbool("isrunningfast", shouldrun);
-        //    // add logic to move towards the player here.
-        //    movetowardsplayer();
-        //}
-        //if (!shouldrun && !shouldroar)
-        //{
-        //    transform.translate(vector3.forward * currentspeed * time.deltatime);
-        //}
     }
 
     private void selectLocation()
     {
         Transform newLocation = moveLocations[UnityEngine.Random.Range(0, moveLocations.Count)];
 
-        if (newLocation == currentLocation)
+        while (newLocation == currentLocation)
         {
-            selectLocation();
+            newLocation = moveLocations[UnityEngine.Random.Range(0, moveLocations.Count)];
         }
 
         currentLocation = newLocation;
