@@ -42,7 +42,6 @@ public class PlayerScript : NetworkBehaviour
     [SerializeField] TwoBoneIKConstraint R_HandIK;
     private bool isGroundedLeft;
     private bool isGroundedRight;
-
     [SerializeField] Transform spawnedFlashlightTransform;
     [SerializeField] GameObject spawnedFlashlightGO;
     [SerializeField] private GameObject spawnLocation;
@@ -67,10 +66,10 @@ public class PlayerScript : NetworkBehaviour
         animator = GetComponent<Animator>();
         transform.position = spawnLocation.transform.position;
 
-        foreach (GameObject go in meshesToDisable)
-        {
-            go.SetActive(false);
-        }
+        //foreach (GameObject go in meshesToDisable)
+        //{
+        //    go.SetActive(false);
+        //}
 
 
         //else

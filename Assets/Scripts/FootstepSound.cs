@@ -9,11 +9,31 @@ public class FootstepSound : StateMachineBehaviour
     private AudioClip selectedSound;
     private AudioSource audioSource1;
     private AudioSource audioSource2;
+    private
+    float minDistance = 1.0f;      
+    float maxDistance = 20.0f;    
+    float rolloffFactor = 1.0f;    
+    float reverbLevel = 0.2f;     
+    float occlusionLevel = 0.5f;  
+    float lowPassFilterCutoff = 500.0f;
+    float highPassFilterCutoff = 50.0f;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         audioSource1 = animator.gameObject.AddComponent<AudioSource>();
         audioSource2 = animator.gameObject.AddComponent<AudioSource>();
+        audioSource1.volume = 0.2f;
+        audioSource2.volume = 0.2f;
+
+        audioSource1.minDistance = minDistance;
+        audioSource2.minDistance = minDistance;
+        audioSource1.maxDistance = maxDistance;
+        audioSource2.maxDistance = maxDistance;
+        audioSource1.rolloffMode = AudioRolloffMode.Linear;
+        audioSource2.rolloffMode = AudioRolloffMode.Linear;
+        
+
+
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
