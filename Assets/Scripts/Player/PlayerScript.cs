@@ -1,6 +1,8 @@
 using Cinemachine;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.Services.Lobbies.Models;
+using Unity.Services.Vivox;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
@@ -24,6 +26,7 @@ public class PlayerScript : NetworkBehaviour
     private Door interactableObject;
     private bool canInteract = false;
     public bool isWalking;
+    private int glowSticksLeft;
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
     [SerializeField] private AudioListener audioListener;
     [SerializeField] private AudioSource audioSourceLFoot;
@@ -46,12 +49,17 @@ public class PlayerScript : NetworkBehaviour
     [SerializeField] private GameObject spawnLocation;
     internal bool isDead;
     [SerializeField] private GameObject parentBody;
+    [SerializeField] private GameObject glowStickPrefab;
+    [SerializeField] private GameObject glowstickSpawnLocation;
     internal bool shouldDespawn = false;
-
+    bool joinedLobby;
     NetworkVariable<int> IKRigWeight = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     // Start is called before the first frame update
-    void Start()
+
+    async void Start()
     {
+        
+        glowSticksLeft = 3;
         isDead = false;
         spawnLocation = GameObject.Find("PlayerSpawn");
 
@@ -68,11 +76,16 @@ public class PlayerScript : NetworkBehaviour
         animator = GetComponent<Animator>();
         transform.position = spawnLocation.transform.position;
 
+        
+
         foreach (GameObject go in meshesToDisable)
         {
             go.SetActive(false);
         }
-
+        Channel3DProperties properties = new Channel3DProperties(32, 1, 1f, AudioFadeModel.LinearByDistance);
+        VivoxService.Instance.ParticipantAddedToChannel += Test;
+        joinedLobby = false;
+        await VivoxService.Instance.JoinPositionalChannelAsync("PositionalChannel", ChatCapability.AudioOnly, properties);
 
         //else
         //{
@@ -80,7 +93,11 @@ public class PlayerScript : NetworkBehaviour
         //    cameraTransform.GetComponentInChildren<Camera>().cullingMask |= 1 << LayerMask.NameToLayer("Head");
         //}
     }
-
+    private void Test(VivoxParticipant participant)
+    {
+        joinedLobby = true;
+        Debug.Log(participant.ChannelName);
+    }
     public override void OnNetworkSpawn()
     {
         if (IsOwner)
@@ -127,6 +144,12 @@ public class PlayerScript : NetworkBehaviour
             return;
         }
 
+        if(joinedLobby)
+        {
+            VivoxService.Instance.Set3DPosition(gameObject, "PositionalChannel");
+        }
+        
+
         float targetHorizontal = Input.GetAxis("Horizontal");
         float targetVertical = Input.GetAxis("Vertical");
 
@@ -153,7 +176,6 @@ public class PlayerScript : NetworkBehaviour
             transform.Translate(Vector3.left * currentSpeed * Time.deltaTime);
 
         }
-
 
         if (Input.GetKey(KeyCode.D))
         {
@@ -194,19 +216,17 @@ public class PlayerScript : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.T))
         {
-            //SpawnFlashLight();
             ActivateLighterServerRpc();
         }
 
-        if (spawnedFlashlightTransform != null)
+        if (Input.GetKeyDown(KeyCode.G))
         {
-            //MoveFlashlightServerRpc();
-        }
-
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            //SpawnFlashLight();
-            ActivateFlashlightServerRpc();
+            if(glowSticksLeft > 0)
+            {
+                SpawnGlowStickServerRpc();
+                glowSticksLeft -= 1;
+            }
+            
         }
 
         if (isWalking)
@@ -237,15 +257,6 @@ public class PlayerScript : NetworkBehaviour
 
             }
         }
-
-
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            IKRigWeight.Value = R_HandIK.weight == 0 ? 1 : 0;
-        }
-
-
-        Debug.Log(isGroundedLeft);
 
     }
 
@@ -292,6 +303,16 @@ public class PlayerScript : NetworkBehaviour
         spawnedFlashlightGO.SetActive(true);
     }
 
+    [ServerRpc]
+    private void SpawnGlowStickServerRpc()
+    {
+        GameObject glowStick = GameObject.Instantiate(glowStickPrefab, glowstickSpawnLocation.transform.position, Quaternion.identity);
+
+        glowStick.GetComponent<NetworkObject>().Spawn(true);
+
+        glowStick.GetComponent<Rigidbody>().AddForce(cameraTransform.forward * 5, ForceMode.Impulse);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag != "Floor")
@@ -309,6 +330,12 @@ public class PlayerScript : NetworkBehaviour
                 //flashLight = other.gameObject.ConvertTo<Flashlight>();
                 //flashLight.pickUp();
                 //flashLight.transform.SetParent(gameObject.transform,false);
+
+                Debug.Log("Flashlight!");
+
+                Destroy(other.gameObject);
+                ActivateFlashlightServerRpc();
+                IKRigWeight.Value = 1;
             }
 
         }

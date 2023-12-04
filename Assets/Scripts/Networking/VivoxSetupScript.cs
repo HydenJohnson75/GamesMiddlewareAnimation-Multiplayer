@@ -45,8 +45,11 @@ public class VivoxSetupScript : MonoBehaviour
     private async Task OnVivoxUserLoggedIn()
     {
         Debug.Log(VivoxService.Instance.AvailableInputDevices);
+        //Channel3DProperties properties = new Channel3DProperties();
         //await VivoxService.Instance.JoinEchoChannelAsync("RandyTest", ChatCapability.AudioOnly);
         await VivoxService.Instance.JoinGroupChannelAsync("RandyTest", ChatCapability.AudioOnly);
+        //await VivoxService.Instance.JoinPositionalChannelAsync("New", ChatCapability.AudioOnly, properties);
+
         //VivoxService.Instance.ParticipantAddedToChannel += OnParticipantAdded;
 
     }

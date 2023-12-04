@@ -12,7 +12,7 @@
 /[Oo]ffline[Bb]uild/
 /[Ll]obby[Bb]uild[Tt]est/
 /[Aa]ssets/[Ss]cenes/[Ll]ocal[Hh]orror[Ss]cene
-
+/[Mm]ulti[Pp]layer[Bb]uild/
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
 /[Mm]emoryCaptures/

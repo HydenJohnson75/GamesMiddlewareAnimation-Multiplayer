@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.Netcode;
+using Unity.Services.Vivox;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -46,25 +48,30 @@ public class LocalSpawnManager : NetworkBehaviour
     {
         if (IsServer && sceneName == "LocalHorrorScene")
         {
+            //VivoxService.Instance.ParticipantAddedToChannel += SetParticipantAudioLocation;
+
             SpawnMonsterServerRpc();
+            
             foreach (ulong clientid in clientsCompleted)
             {
 
                 SpawnPlayer(clientid, true);
-
-
-
             }
+
+            AudioManager.instance.DisableAudioListeners();
         }
 
         // Spawn players for all completed clients when the scene is loaded
         Debug.Log(clientsCompleted.Count);
     }
 
+
+
     private void SpawnPlayer(ulong playerId, bool isLocalPlayer)
     {
         GameObject player = Instantiate(Player);
         player.GetComponent<NetworkObject>().SpawnAsPlayerObject(playerId, isLocalPlayer);
+
 
         if (isLocalPlayer)
         {

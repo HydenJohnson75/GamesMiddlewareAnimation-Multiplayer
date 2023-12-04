@@ -161,8 +161,10 @@ public class LobbyUI : NetworkBehaviour
         players.Add(new LobbyPlayerState(obj, false));
     }
 
-    public void StartGame()
+    public async void StartGame()
     {
+        await VivoxService.Instance.LeaveAllChannelsAsync();
+
         NetworkManager.Singleton.SceneManager.LoadScene("LocalHorrorScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
     }
 
