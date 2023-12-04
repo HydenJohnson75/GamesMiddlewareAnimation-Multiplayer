@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FootstepSound : StateMachineBehaviour
@@ -9,21 +10,41 @@ public class FootstepSound : StateMachineBehaviour
     private AudioClip selectedSound;
     private AudioSource audioSource1;
     private AudioSource audioSource2;
-    private
+    [SerializeField] private AudioLowPassFilter lowPassFilter;
+    [SerializeField] private AudioHighPassFilter highPassFilter;
+    [SerializeField] private AudioReverbFilter reverbFilter;
     float minDistance = 1.0f;      
-    float maxDistance = 20.0f;    
+    float maxDistance = 20f;    
     float rolloffFactor = 1.0f;    
-    float reverbLevel = 0.2f;     
+    float reverbLevel = 0.1f;     
     float occlusionLevel = 0.5f;  
     float lowPassFilterCutoff = 500.0f;
     float highPassFilterCutoff = 50.0f;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        audioSource1 = animator.gameObject.AddComponent<AudioSource>();
-        audioSource2 = animator.gameObject.AddComponent<AudioSource>();
+        lowPassFilter = animator.GetComponent<AudioLowPassFilter>();
+        highPassFilter = animator.gameObject.GetComponent<AudioHighPassFilter>();
+        reverbFilter = animator.gameObject.gameObject.GetComponent<AudioReverbFilter>();
+
+        if (audioSource1 != null)
+        {
+            
+        }
+        else
+        {
+            audioSource1 = animator.gameObject.AddComponent<AudioSource>();
+            audioSource2 = animator.gameObject.AddComponent<AudioSource>();
+        }
+
         audioSource1.volume = 0.2f;
         audioSource2.volume = 0.2f;
+        audioSource1.spatialize = true; 
+        audioSource2.spatialize = true;
+        audioSource1.spatialBlend = 1.0f;
+        audioSource2.spatialBlend = 1.0f;
+        audioSource1.spread = 0; 
+        audioSource2.spread = 0;
 
         audioSource1.minDistance = minDistance;
         audioSource2.minDistance = minDistance;
@@ -31,9 +52,13 @@ public class FootstepSound : StateMachineBehaviour
         audioSource2.maxDistance = maxDistance;
         audioSource1.rolloffMode = AudioRolloffMode.Linear;
         audioSource2.rolloffMode = AudioRolloffMode.Linear;
+
         
+        lowPassFilter.cutoffFrequency = lowPassFilterCutoff;
+        highPassFilter.cutoffFrequency = highPassFilterCutoff;
 
 
+        //reverbFilter.reverbLevel = reverbLevel;
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

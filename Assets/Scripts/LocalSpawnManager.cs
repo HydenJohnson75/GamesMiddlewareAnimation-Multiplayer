@@ -1,18 +1,142 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class LocalSpawnManager : MonoBehaviour
+public class LocalSpawnManager : NetworkBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private GameObject Player;
+    [SerializeField]
+    private GameObject monsterPrefab;
+
+
+    private void Start()
     {
-        
+        DontDestroyOnLoad(this.gameObject);
+        //NetworkManager.Singleton.OnClientConnectedCallback += testSpawn;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void OnNetworkSpawn()
     {
-        
+        NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneLoaded;
+    }
+
+    private void Update()
+    {
+
+    }
+
+    private void testSpawn(ulong obj)
+    {
+        SpawnPlayer2(obj);
+    }
+
+    private void LoadClient(ulong clientId)
+    {
+        // Spawn player for all clients, including the local client
+        SpawnPlayer(clientId, true);
+
+        Debug.Log(clientId);
+    }
+
+    private void SceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+    {
+        if (IsServer && sceneName == "LocalHorrorScene")
+        {
+            SpawnMonsterServerRpc();
+            foreach (ulong clientid in clientsCompleted)
+            {
+
+                SpawnPlayer(clientid, true);
+
+
+
+            }
+        }
+
+        // Spawn players for all completed clients when the scene is loaded
+        Debug.Log(clientsCompleted.Count);
+    }
+
+    private void SpawnPlayer(ulong playerId, bool isLocalPlayer)
+    {
+        GameObject player = Instantiate(Player);
+        player.GetComponent<NetworkObject>().SpawnAsPlayerObject(playerId, isLocalPlayer);
+
+        if (isLocalPlayer)
+        {
+
+        }
+    }
+
+    private void SpawnPlayer2(ulong playerId)
+    {
+        GameObject player = Instantiate(Player);
+        player.GetComponent<NetworkObject>().SpawnAsPlayerObject(playerId);
+
+    }
+
+    [ServerRpc]
+    private void SpawnMonsterServerRpc()
+    {
+        GameObject monsterSpawn = GameObject.FindGameObjectWithTag("MonsterSpawn");
+        GameObject monster = Instantiate(monsterPrefab, monsterSpawn.transform.position, Quaternion.identity);
+        monster.GetComponent<NetworkObject>().Spawn();
     }
 }
+
+    //private void Start()
+    //{
+    //    DontDestroyOnLoad(this.gameObject);
+    //}
+
+//public override void OnNetworkSpawn()
+//{
+//    NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneLoaded;
+//    NetworkManager.Singleton.OnClientConnectedCallback += LoadClient;
+//}
+
+//private void LoadClient(ulong obj)
+//{
+//    //GameObject player = Instantiate(Player);
+
+//    SpawnPlayer(obj, true);
+//}
+
+//private void SceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+//{
+//    if(IsServer && sceneName == "LocalHorrorScene")
+//    {
+//        SpawnMonster();
+//    }
+
+//    //if (sceneName == "LocalHorrorScene")
+//    //{
+//    //    foreach (ulong id in clientsCompleted)
+//    //    {
+//    //        SpawnPlayer(id, id == NetworkManager.Singleton.LocalClientId);
+//    //    }
+//    //}
+//}
+
+//private void SpawnPlayer(ulong playerId, bool isLocalPlayer)
+//{
+//    GameObject player = Instantiate(Player);
+//    player.GetComponent<NetworkObject>().SpawnAsPlayerObject(playerId, isLocalPlayer);
+
+//    // Example: Attach player controls only for the local player
+//    if (isLocalPlayer)
+//    {
+//        // Attach player controls or other local-specific scripts
+//    }
+//}
+
+//private void SpawnMonster()
+//{
+//    GameObject monsterSpawn = GameObject.FindGameObjectWithTag("MonsterSpawn");
+//    GameObject monster = Instantiate(monsterPrefab, monsterSpawn.transform.position, Quaternion.identity);
+//    monster.GetComponent<NetworkObject>().Spawn();
+//}

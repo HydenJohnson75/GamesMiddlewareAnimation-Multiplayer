@@ -9,6 +9,8 @@ TagManager:
   - PlayerCard
   - ChatMessage
   - Flashlight
+  - SpawnLocations
+  - MonsterSpawn
   layers:
   - Default
   - TransparentFX

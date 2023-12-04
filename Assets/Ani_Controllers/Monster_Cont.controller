@@ -195,6 +195,26 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &-1796667251575197135
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fbff37b00775ae48aeff815922130ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  footstepSounds:
+  - {fileID: 8300000, guid: 5b1628518c7dc7140b028a24905cd997, type: 3}
+  - {fileID: 8300000, guid: 5f33c5abb4035d9419eac85e542d34d6, type: 3}
+  - {fileID: 8300000, guid: b8e503b119d5c8347af5f6864084fda4, type: 3}
+  - {fileID: 8300000, guid: 7d2b7af575c20594784df061ab0f7971, type: 3}
+  lowPassFilter: {fileID: 0}
+  highPassFilter: {fileID: 0}
+  reverbFilter: {fileID: 0}
 --- !u!1102 &-1315004672921282727
 AnimatorState:
   serializedVersion: 6
@@ -362,7 +382,7 @@ AnimatorState:
   - {fileID: -663203018257907412}
   - {fileID: -1863289664363418684}
   m_StateMachineBehaviours:
-  - {fileID: 1565223677674146602}
+  - {fileID: -1796667251575197135}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -569,6 +589,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5f33c5abb4035d9419eac85e542d34d6, type: 3}
   - {fileID: 8300000, guid: b8e503b119d5c8347af5f6864084fda4, type: 3}
   - {fileID: 8300000, guid: 7d2b7af575c20594784df061ab0f7971, type: 3}
+  lowPassFilter: {fileID: 0}
+  highPassFilter: {fileID: 0}
+  reverbFilter: {fileID: 0}
 --- !u!1101 &4260637815671587012
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
