@@ -74,13 +74,13 @@ public class MonsterOnlineScript : NetworkBehaviour
         GameObject spawnLocation = GameObject.FindGameObjectWithTag("SpawnLocations");
 
         moveLocations = spawnLocation.GetComponentsInChildren<Transform>().ToList<Transform>();
-        foreach(Transform location in moveLocations)
-        {
-            if(location.gameObject == spawnLocation)
-            {
-                moveLocations.Remove(location);
-            }
-        }
+        //foreach(Transform location in moveLocations)
+        //{
+        //    if(location.gameObject == spawnLocation)
+        //    {
+        //        moveLocations.Remove(location);
+        //    }
+        //}
         currentState = monsterStates.walking;
         selectLocation();
     }

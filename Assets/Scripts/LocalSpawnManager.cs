@@ -46,7 +46,9 @@ public class LocalSpawnManager : NetworkBehaviour
 
     private void SceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
-        if (IsServer && sceneName == "LocalHorrorScene")
+        if (!IsServer) return;
+
+        if (sceneName == "LocalHorrorScene")
         {
             //VivoxService.Instance.ParticipantAddedToChannel += SetParticipantAudioLocation;
 
@@ -86,7 +88,7 @@ public class LocalSpawnManager : NetworkBehaviour
 
     }
 
-    [ServerRpc]
+    [ServerRpc (RequireOwnership =false)]
     private void SpawnMonsterServerRpc()
     {
         GameObject monsterSpawn = GameObject.FindGameObjectWithTag("MonsterSpawn");
