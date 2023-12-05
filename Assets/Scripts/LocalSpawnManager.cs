@@ -39,7 +39,7 @@ public class LocalSpawnManager : NetworkBehaviour
     private void LoadClient(ulong clientId)
     {
         // Spawn player for all clients, including the local client
-        SpawnPlayer(clientId, true);
+        SpawnPlayerServerRpc(clientId, true);
 
         Debug.Log(clientId);
     }
@@ -57,7 +57,7 @@ public class LocalSpawnManager : NetworkBehaviour
             foreach (ulong clientid in clientsCompleted)
             {
 
-                SpawnPlayer(clientid, true);
+                SpawnPlayerServerRpc(clientid, true);
             }
 
             AudioManager.instance.DisableAudioListeners();
@@ -67,9 +67,8 @@ public class LocalSpawnManager : NetworkBehaviour
         Debug.Log(clientsCompleted.Count);
     }
 
-
-
-    private void SpawnPlayer(ulong playerId, bool isLocalPlayer)
+    [ServerRpc(RequireOwnership = false)]
+    private void SpawnPlayerServerRpc(ulong playerId, bool isLocalPlayer)
     {
         GameObject player = Instantiate(Player);
         player.GetComponent<NetworkObject>().SpawnAsPlayerObject(playerId, isLocalPlayer);
