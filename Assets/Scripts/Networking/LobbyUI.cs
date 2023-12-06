@@ -119,6 +119,7 @@ public class LobbyUI : NetworkBehaviour
                 if (IsHost)
                 {
                     startButton.gameObject.SetActive(true);
+                    startButton.onClick.AddListener(HostManager.Instance.StartGame);
                 }
             }
         }
@@ -163,9 +164,9 @@ public class LobbyUI : NetworkBehaviour
 
     public async void StartGame()
     {
-        await VivoxService.Instance.LeaveAllChannelsAsync();
+        
 
-        NetworkManager.Singleton.SceneManager.LoadScene("LocalHorrorScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.LoadScene("LocalHorrorScene", UnityEngine.SceneManagement.LoadSceneMode.Additive);
     }
 
     [ServerRpc(RequireOwnership = false)]

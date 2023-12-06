@@ -6,6 +6,7 @@ using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
+using Unity.Services.Vivox;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -106,11 +107,13 @@ public class HostManager : MonoBehaviour
     }
 
 
-    public void StartGame()
+    public async void StartGame()
     {
+        await VivoxService.Instance.LeaveAllChannelsAsync();
+
         gameStarted = true;
 
-        NetworkManager.Singleton.SceneManager.LoadScene(gameScene, LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.LoadScene("LocalHorrorScene", LoadSceneMode.Single);
     }
 
     // Start is called before the first frame update
